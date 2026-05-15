@@ -49,54 +49,57 @@ function toggle(title: string) {
 
 <template>
   <aside
-    class="shrink-0 border-r border-gray-200 transition-all duration-300 overflow-hidden flex flex-col"
-    :class="collapsed ? 'w-12' : 'w-56'"
+    class="relative shrink-0 border-l border-gray-200 transition-all duration-300 overflow-visible"
+    :class="collapsed ? 'w-0' : 'w-56'"
   >
-    <!-- Toggle button -->
-    <div class="flex items-center justify-end px-2 py-3 border-b border-gray-200">
-      <button
-        @click="collapsed = !collapsed"
-        class="p-1.5 rounded hover:bg-gray-100 transition-colors text-gray-500"
-        :title="collapsed ? 'Ouvrir' : 'Réduire'"
-      >
-        <svg class="w-4 h-4 transition-transform duration-300" :class="collapsed ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
-        </svg>
-      </button>
-    </div>
+    <!-- Handle tab on left edge -->
+    <button
+      @click="collapsed = !collapsed"
+      class="absolute left-0 top-1/2 -translate-x-full -translate-y-1/2 z-10 flex flex-col gap-1 items-center justify-center w-4 h-12 rounded-l-md bg-white border border-r-0 border-gray-200 hover:bg-gray-50 transition-colors shadow-sm"
+      :title="collapsed ? 'Ouvrir' : 'Réduire'"
+    >
+      <span class="block w-0.5 h-3 bg-gray-300 rounded-full" />
+      <span class="block w-0.5 h-3 bg-gray-300 rounded-full" />
+    </button>
 
-    <!-- Sections -->
-    <nav class="flex-1 overflow-y-auto py-2">
-      <div v-for="section in sections" :key="section.title" class="mb-1">
+    <!-- Sidebar content -->
+    <div
+      class="h-full overflow-y-auto transition-opacity duration-200"
+      :class="collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'"
+    >
+      <nav class="py-4">
+        <div v-for="section in sections" :key="section.title" class="mb-2">
 
-        <!-- Section header -->
-        <button
-          @click="toggle(section.title)"
-          class="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-100 transition-colors"
-        >
-          <svg
-            class="w-3 h-3 text-gray-400 shrink-0 transition-transform duration-200"
-            :class="open[section.title] ? 'rotate-90' : ''"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-          <span v-if="!collapsed" class="text-sm font-bold truncate">{{ section.title }}</span>
-        </button>
-
-        <!-- Sub-items -->
-        <div v-if="!collapsed && open[section.title]" class="ml-2">
+          <!-- Section header -->
           <button
-            v-for="item in section.items"
-            :key="item.label"
-            class="w-full flex items-center gap-2 px-4 py-1.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors rounded"
+            @click="toggle(section.title)"
+            class="w-full flex items-center justify-between px-4 py-2 group"
           >
-            <span class="text-base leading-none">{{ item.icon }}</span>
-            <span class="truncate">{{ item.label }}</span>
+            <span class="text-xs font-bold tracking-widest uppercase text-gray-400 group-hover:text-gray-600 transition-colors">
+              {{ section.title }}
+            </span>
+            <span
+              class="text-gray-300 group-hover:text-gray-400 transition-all duration-200 text-xs"
+              :class="open[section.title] ? 'opacity-100' : 'opacity-50'"
+            >
+              {{ open[section.title] ? '−' : '+' }}
+            </span>
           </button>
-        </div>
 
-      </div>
-    </nav>
+          <!-- Sub-items -->
+          <div v-if="open[section.title]" class="mt-0.5 mb-2">
+            <button
+              v-for="item in section.items"
+              :key="item.label"
+              class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            >
+              <span class="text-base leading-none">{{ item.icon }}</span>
+              <span class="truncate">{{ item.label }}</span>
+            </button>
+          </div>
+
+        </div>
+      </nav>
+    </div>
   </aside>
 </template>

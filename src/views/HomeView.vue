@@ -20,8 +20,6 @@ onMounted(() => {
 
 <template>
   <div class="flex min-h-screen">
-    <Sidebar />
-
     <div class="flex-1 overflow-y-auto">
       <!-- Header banner -->
       <div class="relative w-full overflow-hidden h-[min(380px,45vw)]">
@@ -35,5 +33,6 @@ onMounted(() => {
       <hr class="mx-6 my-8 border-gray-200" />
       <MonthlyOverview />
     </div>
+    <Sidebar />
   </div>
 </template>
