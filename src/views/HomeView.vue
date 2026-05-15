@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { supabase } from '../utils/supabase'
 import banner from '../assets/images/chill_ambiant.jpg'
 import DailyCheckIn from '../components/DailyCheckIn.vue'
+import MonthlyOverview from '../components/MonthlyOverview.vue'
 
 const tasks = ref([])
 
@@ -24,4 +25,6 @@ onMounted(() => {
     </div>
   </div>
   <DailyCheckIn />
+  <hr class="mx-6 my-8 border-gray-200" />
+  <MonthlyOverview />
 </template>
