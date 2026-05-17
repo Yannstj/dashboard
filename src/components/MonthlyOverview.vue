@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import banner from '../assets/images/chill_ambiant.jpg'
-import sekai from '../assets/images/colored_sekai.jpeg'
+import sekai from '../assets/images/colored_sekai.jpg'
 
 const today = new Date()
 const currentYear = ref(today.getFullYear())
 const currentMonth = ref(today.getMonth())
 
 const monthNames = [
-  'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-  'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
+  'janvier',
+  'février',
+  'mars',
+  'avril',
+  'mai',
+  'juin',
+  'juillet',
+  'août',
+  'septembre',
+  'octobre',
+  'novembre',
+  'décembre',
 ]
 const dayNames = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.']
 
@@ -25,7 +35,11 @@ const calendarDays = computed(() => {
   const days = []
 
   for (let i = firstDay - 1; i >= 0; i--) {
-    days.push({ day: daysInPrevMonth - i, current: false, date: new Date(year, month - 1, daysInPrevMonth - i) })
+    days.push({
+      day: daysInPrevMonth - i,
+      current: false,
+      date: new Date(year, month - 1, daysInPrevMonth - i),
+    })
   }
   for (let d = 1; d <= daysInMonth; d++) {
     days.push({ day: d, current: true, date: new Date(year, month, d) })
@@ -47,13 +61,17 @@ function isToday(date: Date) {
 }
 
 function prevMonth() {
-  if (currentMonth.value === 0) { currentMonth.value = 11; currentYear.value-- }
-  else currentMonth.value--
+  if (currentMonth.value === 0) {
+    currentMonth.value = 11
+    currentYear.value--
+  } else currentMonth.value--
 }
 
 function nextMonth() {
-  if (currentMonth.value === 11) { currentMonth.value = 0; currentYear.value++ }
-  else currentMonth.value++
+  if (currentMonth.value === 11) {
+    currentMonth.value = 0
+    currentYear.value++
+  } else currentMonth.value++
 }
 
 function goToToday() {
@@ -63,7 +81,13 @@ function goToToday() {
 
 const garland = [
   { type: 'image', src: banner },
-  { type: 'quote', bg: '#dce8f5', text: 'LIFE IS BEAUTIFUL AND I HAVE TIME', color: '#5b8fc9', serif: false },
+  {
+    type: 'quote',
+    bg: '#dce8f5',
+    text: 'LIFE IS BEAUTIFUL AND I HAVE TIME',
+    color: '#5b8fc9',
+    serif: false,
+  },
   { type: 'gradient' },
   { type: 'quote', bg: '#f0ebe3', text: 'Romanticize your life', color: '#3d3d2f', serif: true },
   { type: 'image', src: sekai },
@@ -73,11 +97,9 @@ const garland = [
 
 <template>
   <section class="flex mt-6 mx-6 border border-gray-200 rounded-lg overflow-hidden">
-
     <!-- Garland -->
     <div class="w-52 shrink-0 border-r border-gray-200 overflow-y-auto max-h-[680px]">
       <div v-for="(item, i) in garland" :key="i" class="h-52 overflow-hidden relative">
-
         <img v-if="item.type === 'image'" :src="item.src" class="w-full h-full object-cover" />
 
         <div
@@ -97,33 +119,50 @@ const garland = [
         <div
           v-else-if="item.type === 'gradient'"
           class="w-full h-full flex items-center justify-center"
-          style="background-color: #fdf0ec;"
+          style="background-color: #fdf0ec"
         >
-          <div class="w-28 h-28 rounded-full" style="background: radial-gradient(circle, #e8a090 0%, #f5c8b8 40%, transparent 70%); opacity: 0.85;" />
+          <div
+            class="w-28 h-28 rounded-full"
+            style="
+              background: radial-gradient(circle, #e8a090 0%, #f5c8b8 40%, transparent 70%);
+              opacity: 0.85;
+            "
+          />
         </div>
-
       </div>
     </div>
 
     <!-- Calendar -->
     <div class="flex-1 flex flex-col">
-
       <!-- Calendar header -->
       <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
         <h2 class="text-xl font-bold">Monthly Overview</h2>
         <div class="flex items-center gap-3">
           <button @click="prevMonth" class="p-1 hover:bg-gray-100 rounded transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <span class="text-sm font-medium capitalize">{{ monthLabel }}</span>
           <button @click="nextMonth" class="p-1 hover:bg-gray-100 rounded transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
-          <button @click="goToToday" class="ml-2 text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors">
+          <button
+            @click="goToToday"
+            class="ml-2 text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+          >
             Aujourd'hui
           </button>
         </div>
@@ -156,7 +195,6 @@ const garland = [
           </span>
         </div>
       </div>
-
     </div>
   </section>
 </template>

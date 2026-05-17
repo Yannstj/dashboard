@@ -1,31 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import coloredSekai from '../assets/images/colored_sekai.jpeg'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import coloredSekai from '../assets/images/colored_sekai.jpg'
+import { useDailyCheckInStore } from '../stores/dailyCheckIn'
 
-const gratitude = ref('')
-const affirmation = ref('')
+const store = useDailyCheckInStore()
+const { gratitude, affirmation, morningHabits, eveningHabits, meals, saving, saved, loading } =
+  storeToRefs(store)
 
-const morningHabits = ref([{ id: 1, label: 'Tâche', done: false }])
-const eveningHabits = ref([{ id: 1, label: 'Tâche', done: false }])
-
-const meals = ref({ breakfast: '', lunch: '', dinner: '', snacks: '' })
-
-let nextId = 2
-
-function addMorningHabit() {
-  morningHabits.value.push({ id: nextId++, label: 'Tâche', done: false })
-}
-
-function addEveningHabit() {
-  eveningHabits.value.push({ id: nextId++, label: 'Tâche', done: false })
-}
+onMounted(() => store.load())
 </script>
 
 <template>
   <section class="border border-gray-200 rounded-lg overflow-hidden mt-6 mx-6">
     <!-- Header -->
-    <div class="bg-gray-100 px-4 py-3 border-b border-gray-200">
+    <div class="bg-gray-100 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
       <h2 class="text-lg font-bold">Daily Check-In</h2>
+      <span v-if="loading" class="text-xs text-gray-400">Chargement…</span>
+      <span v-else-if="saving" class="text-xs text-gray-400">Sauvegarde…</span>
+      <span v-else-if="saved" class="text-xs text-green-500">✓ Sauvegardé</span>
     </div>
 
     <!-- Content -->
@@ -72,12 +65,17 @@ function addEveningHabit() {
             :key="habit.id"
             class="flex items-center gap-2 text-sm"
           >
-            <input type="checkbox" v-model="habit.done" class="w-4 h-4" />
-            <span :class="{ 'line-through text-gray-400': habit.done }">{{ habit.label }}</span>
+            <input type="checkbox" v-model="habit.done" class="w-4 h-4 shrink-0" />
+            <input
+              v-model="habit.label"
+              type="text"
+              class="w-full outline-none bg-transparent text-sm"
+              :class="{ 'line-through text-gray-400': habit.done }"
+            />
           </li>
         </ul>
         <button
-          @click="addMorningHabit"
+          @click="store.addMorningHabit"
           class="text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition-colors"
         >
           New Habit
@@ -93,12 +91,17 @@ function addEveningHabit() {
             :key="habit.id"
             class="flex items-center gap-2 text-sm"
           >
-            <input type="checkbox" v-model="habit.done" class="w-4 h-4" />
-            <span :class="{ 'line-through text-gray-400': habit.done }">{{ habit.label }}</span>
+            <input type="checkbox" v-model="habit.done" class="w-4 h-4 shrink-0" />
+            <input
+              v-model="habit.label"
+              type="text"
+              class="w-full outline-none bg-transparent text-sm"
+              :class="{ 'line-through text-gray-400': habit.done }"
+            />
           </li>
         </ul>
         <button
-          @click="addEveningHabit"
+          @click="store.addEveningHabit"
           class="text-sm border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 transition-colors"
         >
           New Habit
@@ -123,7 +126,7 @@ function addEveningHabit() {
               <td class="px-3 py-2 font-medium w-24 border-r border-gray-200">{{ label }}</td>
               <td class="px-3 py-1">
                 <input
-                  v-model="meals[key]"
+                  v-model="meals[key as keyof typeof meals]"
                   type="text"
                   class="w-full text-sm outline-none bg-transparent"
                 />

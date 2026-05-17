@@ -6,7 +6,7 @@ import DailyCheckIn from '../components/DailyCheckIn.vue'
 import MonthlyOverview from '../components/MonthlyOverview.vue'
 import Sidebar from '../components/Sidebar.vue'
 
-const tasks = ref([])
+const tasks = ref<Record<string, unknown>[]>([])
 
 async function getTasks() {
   const { data } = await supabase.from('tasks').select()
