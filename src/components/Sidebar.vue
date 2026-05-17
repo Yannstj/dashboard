@@ -1,39 +1,41 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const collapsed = ref(false)
 
 const sections = [
   {
     title: 'Daily',
     items: [
-      { icon: '📎', label: 'My Planner' },
-      { icon: '✔️', label: 'Habit Tracker' },
-      { icon: '🎯', label: 'Journal' },
+      { icon: '📎', label: 'My Planner', route: '/planner' },
+      { icon: '✔️', label: 'Habit Tracker', route: null },
+      { icon: '🎯', label: 'Journal', route: null },
     ],
   },
   {
     title: 'Goals',
     items: [
-      { icon: '✨', label: 'Goals & Vision Boards' },
-      { icon: '🫧', label: 'Routines' },
-      { icon: '📄', label: 'Note to Self' },
+      { icon: '✨', label: 'Goals & Vision Boards', route: null },
+      { icon: '🫧', label: 'Routines', route: null },
+      { icon: '📄', label: 'Note to Self', route: null },
     ],
   },
   {
     title: 'Wellness',
     items: [
-      { icon: '🎧', label: 'Workouts' },
-      { icon: '🥑', label: 'Meals & Groceries' },
-      { icon: '🍪', label: 'My Recipes' },
+      { icon: '🎧', label: 'Workouts', route: null },
+      { icon: '🥑', label: 'Meals & Groceries', route: null },
+      { icon: '🍪', label: 'My Recipes', route: null },
     ],
   },
   {
     title: 'Personal',
     items: [
-      { icon: '📖', label: 'Book' },
-      { icon: '🎬', label: 'TV/Movies' },
-      { icon: '✈️', label: 'Travel Plans' },
+      { icon: '📖', label: 'Book', route: null },
+      { icon: '🎬', label: 'TV/Movies', route: null },
+      { icon: '✈️', label: 'Travel Plans', route: null },
     ],
   },
 ]
@@ -44,6 +46,10 @@ const open = ref<Record<string, boolean>>(
 
 function toggle(title: string) {
   open.value[title] = !open.value[title]
+}
+
+function navigate(route: string | null) {
+  if (route) router.push(route)
 }
 </script>
 
@@ -69,8 +75,6 @@ function toggle(title: string) {
     >
       <nav class="py-4">
         <div v-for="section in sections" :key="section.title" class="mb-2">
-
-          <!-- Section header -->
           <button
             @click="toggle(section.title)"
             class="w-full flex items-center justify-between px-4 py-2 group"
@@ -86,18 +90,18 @@ function toggle(title: string) {
             </span>
           </button>
 
-          <!-- Sub-items -->
           <div v-if="open[section.title]" class="mt-0.5 mb-2">
             <button
               v-for="item in section.items"
               :key="item.label"
+              @click="navigate(item.route)"
               class="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+              :class="item.route ? 'cursor-pointer' : 'cursor-default opacity-50'"
             >
               <span class="text-base leading-none">{{ item.icon }}</span>
               <span class="truncate">{{ item.label }}</span>
             </button>
           </div>
-
         </div>
       </nav>
     </div>
