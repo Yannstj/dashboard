@@ -11,6 +11,10 @@ const router = createRouter({
       path: '/planner',
       component: () => import('../views/PlannerView.vue'),
     },
+    {
+      path: '/habits',
+      component: () => import('../views/HabitTrackerView.vue'),
+    },
   ],
 })
 

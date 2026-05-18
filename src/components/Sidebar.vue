@@ -10,7 +10,7 @@ const sections = [
     title: 'Daily',
     items: [
       { icon: '📎', label: 'My Planner', route: '/planner' },
-      { icon: '✔️', label: 'Habit Tracker', route: null },
+      { icon: '✔️', label: 'Habit Tracker', route: '/habits' },
       { icon: '🎯', label: 'Journal', route: null },
     ],
   },
