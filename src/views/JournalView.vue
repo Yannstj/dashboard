@@ -99,7 +99,7 @@ function openModal(entry: JournalEntry) {
       </div>
 
       <!-- Center column: entry list -->
-      <div class="flex-1 min-w-0">
+      <div class="w-136 shrink-0">
         <div class="flex items-center justify-between mb-3">
           <span class="font-semibold text-gray-800">All My Thoughts</span>
           <button

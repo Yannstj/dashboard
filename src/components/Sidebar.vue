@@ -84,7 +84,7 @@ function isActive(r: string | null) {
   />
 
   <aside
-    class="relative shrink-0 border-l border-gray-200 transition-all duration-300 overflow-visible"
+    class="fixed right-0 top-0 h-screen bg-white border-l border-gray-200 transition-all duration-300 overflow-visible z-40"
     :class="isOpen ? 'w-56' : 'w-0'"
     @mouseleave="onSidebarLeave"
   >

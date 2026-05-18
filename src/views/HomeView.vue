@@ -30,5 +30,6 @@ onMounted(() => {
     <DailyCheckIn />
     <hr class="mx-6 my-8 border-gray-200" />
     <MonthlyOverview />
+    <div class="h-8" />
   </div>
 </template>
