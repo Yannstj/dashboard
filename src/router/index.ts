@@ -15,6 +15,10 @@ const router = createRouter({
       path: '/habits',
       component: () => import('../views/HabitTrackerView.vue'),
     },
+    {
+      path: '/journal',
+      component: () => import('../views/JournalView.vue'),
+    },
   ],
 })
 
